@@ -92,3 +92,5 @@ app.put('/api/absen/:id', (req, res) => {
 app.listen(3000, () => {
   console.log('Server berjalan mulus di http://localhost:3000');
 });
+// Tambahkan baris ini di paling bawah file server.js
+module.exports = app;
