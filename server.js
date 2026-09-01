@@ -1,44 +1,29 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-require('dotenv').config(); // Panggil dotenv di sini
+require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// Ubah koneksi database agar memanggil process.env
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
-
-// ... sisa kodemu di bawahnya biarkan tetap sama ...
-
-// Middleware: Memberitahu server untuk mengizinkan akses dari luar dan bisa membaca data JSON
-app.use(cors());
-app.use(express.json());
-
-// Menampilkan halaman index.html saat membuka localhost:3000
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-// 1. KONEKSI DATABASE
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',      // Username bawaan XAMPP
-  password: '',      // Password bawaan XAMPP (kosong)
-  database: 'db_absensi'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306
 });
 
 db.connect((err) => {
   if (err) throw err;
   console.log('Database MySQL berhasil terhubung!');
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
 });
 
 // ==========================================
@@ -89,8 +74,8 @@ app.put('/api/absen/:id', (req, res) => {
 // ==========================================
 // 3. MENYALAKAN SERVER
 // ==========================================
-app.listen(3000, () => {
-  console.log('Server berjalan mulus di http://localhost:3000');
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
 });
 // Tambahkan baris ini di paling bawah file server.js
 module.exports = app;
