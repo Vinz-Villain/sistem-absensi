@@ -14,12 +14,19 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 3306
+  port: process.env.DB_PORT || 3306,
+  ssl: {
+    rejectUnauthorized: false
+  },
+  connectTimeout: 10000
 });
 
 db.connect((err) => {
-  if (err) throw err;
-  console.log('Database MySQL berhasil terhubung!');
+  if (err) {
+    console.error('Gagal terhubung ke database:', err.message);
+  } else {
+    console.log('Database MySQL berhasil terhubung!');
+  }
 });
 
 app.get('/', (req, res) => {
