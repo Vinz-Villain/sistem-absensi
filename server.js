@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
+const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -18,16 +18,18 @@ const db = mysql.createConnection({
   ssl: {
     rejectUnauthorized: false
   },
+  connectionLimit: 5,
   connectTimeout: 10000
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('Gagal terhubung ke database:', err.message);
-  } else {
-    console.log('Database MySQL berhasil terhubung!');
-  }
-});
+function query(sql, params) {
+  return new Promise((resolve, reject) => {
+    pool.query(sql, params, (err, results) => {
+      if (err) reject(err);
+      else resolve(results);
+    });
+  });
+}
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -38,51 +40,56 @@ app.get('/', (req, res) => {
 // ==========================================
 
 // READ: Menampilkan semua data absen
-app.get('/api/absen', (req, res) => {
-  db.query("SELECT * FROM kehadiran ORDER BY waktu DESC", (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+app.get('/api/absen', async (req, res) => {
+  try {
+    const results = await query("SELECT * FROM kehadiran ORDER BY waktu DESC");
     res.json(results);
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // CREATE: Menambah data absen baru
-app.post('/api/absen', (req, res) => {
+app.post('/api/absen', async (req, res) => {
   const { nama, status } = req.body;
-  const sql = "INSERT INTO kehadiran (nama, status) VALUES (?, ?)";
-  
-  db.query(sql, [nama, status], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
+  try {
+    const result = await query("INSERT INTO kehadiran (nama, status) VALUES (?, ?)", [nama, status]);
     res.json({ pesan: "Berhasil absen!", id: result.insertId });
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // DELETE: Menghapus data absen berdasarkan ID
-app.delete('/api/absen/:id', (req, res) => {
+app.delete('/api/absen/:id', async (req, res) => {
   const id = req.params.id;
-  db.query("DELETE FROM kehadiran WHERE id = ?", [id], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
+  try {
+    await query("DELETE FROM kehadiran WHERE id = ?", [id]);
     res.json({ pesan: "Data absen dihapus!" });
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // UPDATE: Mengubah data absen berdasarkan ID
-app.put('/api/absen/:id', (req, res) => {
+app.put('/api/absen/:id', async (req, res) => {
   const id = req.params.id;
   const { nama, status } = req.body;
-  
-  const sql = "UPDATE kehadiran SET nama = ?, status = ? WHERE id = ?";
-  
-  db.query(sql, [nama, status, id], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
+  try {
+    await query("UPDATE kehadiran SET nama = ?, status = ? WHERE id = ?", [nama, status, id]);
     res.json({ pesan: "Data absen berhasil diperbarui!" });
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ==========================================
 // 3. MENYALAKAN SERVER
 // ==========================================
-app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
-});
-// Tambahkan baris ini di paling bawah file server.js
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server berjalan di http://localhost:${port}`);
+  });
+}
+
 module.exports = app;
