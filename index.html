@@ -33,6 +33,7 @@
   }
 
   *{ box-sizing:border-box; }
+  [hidden] { display: none !important; }
 
   body{
     margin:0;
@@ -353,6 +354,215 @@
   .empty p{ margin:0; font-size:13.5px; }
   .empty span{ color:var(--text-faint); font-size:12px; }
 
+  /* ---------- Photo Section Styles ---------- */
+  .photo-section {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border-soft);
+  }
+  .photo-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .photo-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-photo-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-photo-opt:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+    background: var(--brand-soft);
+  }
+
+  .webcam-box {
+    margin-top: 12px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 400px;
+    border: 1px solid var(--border);
+  }
+  .webcam-box video {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+  }
+  .webcam-actions {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    background: var(--surface);
+  }
+  .btn-snap {
+    flex: 1;
+    background: var(--brand);
+    color: #1a1406;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .btn-cancel-cam {
+    background: var(--surface-2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .photo-preview-box {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 380px;
+  }
+  .photo-preview-box img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+  .photo-preview-info {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .preview-text {
+    font-size: 12.5px;
+    color: var(--hadir);
+    font-weight: 500;
+  }
+  .btn-remove-photo {
+    background: transparent;
+    border: none;
+    color: var(--sakit);
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* Table Avatar with photo thumbnail */
+  .avatar.has-photo {
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .avatar.has-photo:hover {
+    transform: scale(1.08);
+    border-color: var(--brand);
+  }
+  .avatar.has-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Modal Lightbox */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10, 12, 16, 0.85);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.active {
+    display: flex;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 460px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: rgba(0,0,0,0.5);
+    color: var(--text);
+    border: none;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+  }
+  .modal-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .modal-header h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 16px;
+  }
+  .modal-body {
+    padding: 0;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 380px;
+  }
+  .modal-body img {
+    max-width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+  }
+  .modal-footer {
+    padding: 12px 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: right;
+    border-top: 1px solid var(--border-soft);
+  }
+
   /* ---------- Responsive ---------- */
   @media (max-width:640px){
     .stats{ grid-template-columns:1fr; }
@@ -418,7 +628,7 @@
   <section class="card">
     <div class="card-head">
       <h2>Catat kehadiran</h2>
-      <span class="hint">Isi nama, pilih status, lalu kirim</span>
+      <span class="hint">Isi nama, foto bukti, pilih status, lalu kirim</span>
     </div>
     <div class="form-row">
       <div class="field-name">
@@ -431,6 +641,46 @@
       </div>
       <button class="btn-submit" onclick="tambahAbsen()">Kirim Absen</button>
     </div>
+
+    <!-- Photo Section -->
+    <div class="photo-section">
+      <div class="photo-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        <span>Bukti Foto Absensi:</span>
+      </div>
+
+      <div class="photo-controls" id="photoControls">
+        <button type="button" class="btn-photo-opt" onclick="bukaKamera()">
+          📷 Ambil Foto (Kamera)
+        </button>
+        <label class="btn-photo-opt">
+          📁 Upload Foto
+          <input type="file" id="inputFotoFile" accept="image/*" onchange="tangkapUploadFile(event)" hidden>
+        </label>
+      </div>
+
+      <!-- Live Webcam Area -->
+      <div class="webcam-box" id="webcamBox" hidden>
+        <video id="webcamVideo" autoplay playsinline></video>
+        <div class="webcam-actions">
+          <button type="button" class="btn-snap" onclick="ambilSnapshotKamera()">📸 Tangkap Foto</button>
+          <button type="button" class="btn-cancel-cam" onclick="tutupKamera()">Batal</button>
+        </div>
+      </div>
+
+      <!-- Preview Image Area -->
+      <div class="photo-preview-box" id="photoPreviewBox" hidden>
+        <img id="imgPreview" src="" alt="Preview Bukti Foto">
+        <div class="photo-preview-info">
+          <span class="preview-text">✓ Foto Bukti Siap</span>
+          <button type="button" class="btn-remove-photo" onclick="hapusFotoSelected()">Hapus Foto</button>
+        </div>
+      </div>
+    </div>
+
     <div class="form-error" id="formError">Nama tidak boleh kosong.</div>
   </section>
 
@@ -444,13 +694,30 @@
 
 </div>
 
+<!-- Modal Lightbox Bukti Foto -->
+<div class="modal-overlay" id="photoModal" onclick="tutupPhotoModal(event)" hidden>
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="tutupPhotoModal()">&times;</button>
+    <div class="modal-header">
+      <h3 id="modalNama">Bukti Kehadiran</h3>
+      <div class="stamp" id="modalStamp">Hadir</div>
+    </div>
+    <div class="modal-body">
+      <img id="modalImg" src="" alt="Foto Bukti Absensi">
+    </div>
+    <div class="modal-footer" id="modalWaktu">--</div>
+  </div>
+</div>
+
 <script>
   const urlAPI = '/api/absen';
   let localMode = false;
   let selectedStatus = 'Hadir';
+  let selectedFotoBase64 = null;
+  let webcamStream = null;
+  let currentRecords = [];
 
-  // Seed data used only if the local API can't be reached, so the page
-  // still demonstrates real behaviour standalone.
+  // Seed data used only if the local API can't be reached
   let localData = [
     { id: 1, nama: 'Siti Rahma', status: 'Hadir', waktu: new Date().setHours(7,52,0,0) },
     { id: 2, nama: 'Budi Santoso', status: 'Izin', waktu: new Date().setHours(8,4,0,0) },
@@ -492,6 +759,111 @@
     selectedStatus = btn.dataset.status;
   });
 
+  // ---------- Kamera & File Handler ----------
+  async function bukaKamera() {
+    const webcamBox = document.getElementById('webcamBox');
+    const video = document.getElementById('webcamVideo');
+    try {
+      webcamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } });
+      video.srcObject = webcamStream;
+      webcamBox.hidden = false;
+    } catch (err) {
+      alert('Tidak dapat mengakses kamera: ' + err.message + '\nSilakan gunakan tombol "Upload Foto".');
+    }
+  }
+
+  function tutupKamera() {
+    if (webcamStream) {
+      webcamStream.getTracks().forEach(track => track.stop());
+      webcamStream = null;
+    }
+    document.getElementById('webcamBox').hidden = true;
+  }
+
+  function ambilSnapshotKamera() {
+    const video = document.getElementById('webcamVideo');
+    const canvas = document.createElement('canvas');
+    canvas.width = 480;
+    canvas.height = 360;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    selectedFotoBase64 = canvas.toDataURL('image/jpeg', 0.75);
+    tutupKamera();
+    tampilkanPreviewFoto(selectedFotoBase64);
+  }
+
+  function tangkapUploadFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (!file.type.startsWith('image/')) {
+      alert('Pilih file gambar yang valid (JPG, PNG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        let maxDim = 600;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        selectedFotoBase64 = canvas.toDataURL('image/jpeg', 0.75);
+        tampilkanPreviewFoto(selectedFotoBase64);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function tampilkanPreviewFoto(dataUrl) {
+    document.getElementById('imgPreview').src = dataUrl;
+    document.getElementById('photoPreviewBox').hidden = false;
+  }
+
+  function hapusFotoSelected() {
+    selectedFotoBase64 = null;
+    document.getElementById('imgPreview').src = '';
+    document.getElementById('photoPreviewBox').hidden = true;
+    document.getElementById('inputFotoFile').value = '';
+  }
+
+  function bukaModalId(id) {
+    const item = currentRecords.find(r => r.id === id);
+    if (item && item.foto) {
+      document.getElementById('modalNama').textContent = item.nama;
+      const stamp = document.getElementById('modalStamp');
+      stamp.textContent = item.status;
+      stamp.className = `stamp ${item.status}`;
+      document.getElementById('modalImg').src = item.foto;
+      document.getElementById('modalWaktu').textContent = new Date(item.waktu).toLocaleString('id-ID', { dateStyle:'full', timeStyle:'medium' });
+      const modal = document.getElementById('photoModal');
+      modal.hidden = false;
+      modal.classList.add('active');
+    }
+  }
+
+  function tutupPhotoModal(event) {
+    const modal = document.getElementById('photoModal');
+    modal.hidden = true;
+    modal.classList.remove('active');
+  }
+
   // ---------- Read ----------
   async function ambilData(){
     try{
@@ -509,9 +881,9 @@
 
   function renderTable(data){
     const sorted = [...data].sort((a,b) => new Date(b.waktu) - new Date(a.waktu));
+    currentRecords = sorted;
     const container = document.getElementById('tabelData');
-    document.getElementById('historyCount').textContent =
-      `${data.length} catatan`;
+    document.getElementById('historyCount').textContent = `${data.length} catatan`;
 
     if(data.length === 0){
       container.innerHTML = `
@@ -523,7 +895,13 @@
     } else {
       container.innerHTML = sorted.map(item => `
         <div class="row">
-          <div class="avatar">${escapeHtml(initials(item.nama))}</div>
+          ${item.foto ? `
+            <div class="avatar has-photo" title="Klik untuk lihat foto bukti" onclick="bukaModalId(${item.id})">
+              <img src="${item.foto}" alt="${escapeHtml(item.nama)}">
+            </div>
+          ` : `
+            <div class="avatar">${escapeHtml(initials(item.nama))}</div>
+          `}
           <div class="who">
             <div class="nama">${escapeHtml(item.nama)}</div>
             <div class="waktu">${new Date(item.waktu).toLocaleString('id-ID', { dateStyle:'medium', timeStyle:'short' })}</div>
@@ -559,22 +937,26 @@
     }
     errorEl.style.display = 'none';
 
+    const foto = selectedFotoBase64;
+
     if(localMode){
-      localData.push({ id: localNextId++, nama, status: selectedStatus, waktu: Date.now() });
+      localData.push({ id: localNextId++, nama, status: selectedStatus, foto, waktu: Date.now() });
     } else {
       try{
         await fetch(urlAPI, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nama, status: selectedStatus })
+          body: JSON.stringify({ nama, status: selectedStatus, foto })
         });
       }catch(e){
         localMode = true;
-        localData.push({ id: localNextId++, nama, status: selectedStatus, waktu: Date.now() });
+        localData.push({ id: localNextId++, nama, status: selectedStatus, foto, waktu: Date.now() });
       }
     }
 
     inputNama.value = '';
+    hapusFotoSelected();
+    tutupKamera();
     ambilData();
   }
 
